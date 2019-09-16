@@ -6,15 +6,27 @@ pub struct Token {
 }
 
 trait StrToken {
-    fn new(line: i32, literal: String) -> Token;
-    fn EOF(&self) -> Token;
+    fn new(line: i32, literal: &'static str) -> Token;
+    fn EOF() -> Token;
     fn is_string() -> bool;
-    fn get_text() -> String;
+    fn get_text(&self) -> &'static str;
 }
 
 impl StrToken for Token {
-    fn new(line: i32, literal: String) -> Token {
-        Token { line_number: 0, value: 0, text: "dummy", literal: "dummy" }
+    fn new(line: i32, literal: &'static str) -> Token {
+        Token { line_number: line, value: 0, text: "dummy", literal: literal }
+    }
+
+    fn EOF() -> Token {
+        Self::new(-1, "dummy")
+    }
+
+    fn is_string() -> bool {
+        true
+    }
+
+    fn get_text(&self) -> &'static str {
+        self.literal
     }
 }
 
